@@ -28,6 +28,7 @@ app.get('/', (req, res) => {
     return res.status(234).send("Welcome to MERN Stack Book Store Project")
 })
 
+// Send a book to database
 app.post('/books', async (req, res) => {
     try {
         if(!req.body.title || !req.body.author || !req.body.publishedYear){
@@ -46,5 +47,20 @@ app.post('/books', async (req, res) => {
     } catch (error) {
         console.log(error.message)
         res.status(500).send({message:error.message})
+    }
+})
+
+
+// Get all the books
+app.get('/books', async (req, res) => {
+    try {
+        const books =await Book.find({})
+        res.status(200).json({
+            count: books.length,
+            data: books
+        })
+    } catch (error) {
+        console.log(err.message)
+        res.status(500).send({message: err.message})
     }
 })
